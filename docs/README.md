@@ -39,6 +39,11 @@ Run imported command against an image
 Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
 ```
 
+View help for function
+
+```powershell
+Get-Help Convert-ImageToASCIIArt -Full
+```
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
