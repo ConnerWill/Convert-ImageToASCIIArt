@@ -26,6 +26,13 @@ function Convert-ImageToASCIIArt {
     Example of converting image 'C:\path\to\image.jpg' to ASCII art without using the 'ImagePath' flag
     This flag is not needed if the image path is specified as the first value when calling the function
 
+  .EXAMPLE
+    Convert-ImageToAsciiArt -Path C:\path\to\image.jpg -Width 80 | Out-File -FilePath $PWD\ASCII-art.txt
+
+    Example of converting image 'C:\path\to\image.jpg' to ASCII art with a maximum width of 80
+    Then outputting the ASCII art to a text file
+    This example uses parameter aliases 'Path' and 'Width' instead of the full parapeters 'ImagePath' and 'MaxWidth'
+
   .LINK
     https://github.com/ConnerWill/Convert-ImageToASCIIArt
 #>
