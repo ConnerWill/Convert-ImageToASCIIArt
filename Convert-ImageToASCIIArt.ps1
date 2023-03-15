@@ -131,3 +131,13 @@ function Convert-ImageToASCIIArt {
     Write-Verbose -Message "Outputting the ASCII art"
     Write-Output $asciiChars
 }
+
+# TODO:
+# Use the following script to verify the inputted image is an image by attempting to load the file as an image instead of using file extensions
+# try {
+#    $image = New-Object System.Drawing.Bitmap($file)
+#    Write-Host "This file is an image."
+#} catch {
+#    Write-Host "This file is not an image."
+#}
+#
