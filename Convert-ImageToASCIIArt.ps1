@@ -51,14 +51,14 @@ function Convert-ImageToASCIIArt {
             HelpMessage='Enter path to image file'
         )]
         [ValidateScript({
+            # Validate the input is an image by attempting to load the file as an image
             Try {
                 New-Object System.Drawing.Bitmap($_)
                 $true
             } Catch {
                 $false
             }
-        },
-        ErrorMessage = "{0} is not an image"
+        }, ErrorMessage = "{0} is not an image"
         )]
         [Alias("Path","Image")]
         [string]
