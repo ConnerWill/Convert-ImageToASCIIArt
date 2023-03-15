@@ -52,8 +52,12 @@ function Convert-ImageToASCIIArt {
         )]
         [ValidateScript({
             $file = $_
-            try { $image = New-Object System.Drawing.Bitmap($file) }
-            catch { throw "${file} is not an image" }
+            if (New-Object System.Drawing.Bitmap($file){
+                $true
+            }
+            else {
+              throw "${file} is not an image"
+            }
         })]
         [Alias("Path","Image")]
         [string]
