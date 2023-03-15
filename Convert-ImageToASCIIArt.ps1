@@ -26,6 +26,7 @@ function Convert-ImageToASCIIArt {
       Example of converting image 'C:\path\to\image.jpg' to ASCII art without using the 'ImagePath' flag
       This flag is not needed if the image path is specified as the first value when calling the function
 #>
+    [CmdletBinding()]
     Param (
         [Parameter(
             Mandatory=$true,
