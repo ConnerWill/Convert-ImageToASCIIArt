@@ -48,18 +48,12 @@ function Convert-ImageToASCIIArt {
         [Parameter(
             Mandatory=$true,
             Position=0,
-            HelpMessage='Enter path to image (Supported extensions: .jpg .jpeg .png .bmp .gif)'
+            HelpMessage='Enter path to image file'
         )]
         [ValidateScript({
-            $filePath = $_
-            $imageExtensions = @(".jpg", ".jpeg", ".png", ".bmp", ".gif")
-            $extension = [System.IO.Path]::GetExtension($filePath)
-            if ($imageExtensions -contains $extension.ToLower()) {
-                $true
-            }
-            else {
-                throw "The file at $filePath is not an image."
-            }
+            $file = $_
+            try { $image = New-Object System.Drawing.Bitmap($file) }
+            catch { throw "${file} is not an image" }
         })]
         [Alias("Path","Image")]
         [string]
@@ -133,11 +127,4 @@ function Convert-ImageToASCIIArt {
 }
 
 # TODO:
-# Use the following script to verify the inputted image is an image by attempting to load the file as an image instead of using file extensions
-# try {
-#    $image = New-Object System.Drawing.Bitmap($file)
-#    Write-Host "This file is an image."
-#} catch {
-#    Write-Host "This file is not an image."
-#}
 #
