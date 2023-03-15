@@ -52,7 +52,7 @@ function Convert-ImageToASCIIArt {
         )]
         [ValidateScript({
             $file = $_
-            if (New-Object System.Drawing.Bitmap($file){
+            if (New-Object System.Drawing.Bitmap($file)){
                 $true
             }
             else {
