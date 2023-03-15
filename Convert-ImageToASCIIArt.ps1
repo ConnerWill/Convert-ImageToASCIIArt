@@ -48,7 +48,7 @@ function Convert-ImageToASCIIArt {
         [Parameter(
             Mandatory=$true,
             Position=0,
-            HelpMessage='Enter path to image'
+            HelpMessage='Enter path to image (Supported extensions: .jpg .jpeg .png .bmp .gif)'
         )]
         [ValidateScript({
             $filePath = $_
@@ -63,7 +63,7 @@ function Convert-ImageToASCIIArt {
         })]
         [Alias("Path","Image")]
         [string]
-        # Specifies the path to the image file to be converted to ASCII art
+        # Specifies the path to the image file to be converted to ASCII art (Supported extensions: .jpg .jpeg .png .bmp .gif)
         $ImagePath,
 
         [Parameter(
