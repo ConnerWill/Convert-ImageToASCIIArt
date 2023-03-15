@@ -40,6 +40,7 @@ function Convert-ImageToASCIIArt {
             {Test-Path $_ -PathType 'Leaf'},
             ErrorMessage="Cannot use {0}, please enter the full path to the image"
         )]
+        [Alias("Path","Image")]
         [string]
         # Specifies the path to the image file to be converted to ASCII art
         $ImagePath,
@@ -47,6 +48,7 @@ function Convert-ImageToASCIIArt {
         [Parameter(
             HelpMessage='Enter maximum width of ASCII art output (Default: 120)'
         )]
+        [Alias("Width")]
         [int]
         # Specifies the maximum width for the ASCII art output (Default: 120)
         $MaxWidth = 120,
