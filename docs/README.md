@@ -55,6 +55,7 @@ Example of converting image `C:\path\to\image.jpg` to ASCII art
 Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
 ```
 
+<br>
 
 Example of converting image `C:\path\to\image.jpg` to ASCII art
 specifying the `MaxWidth` of ASCII art output to 80 instead of default value of 120
@@ -64,6 +65,8 @@ and the `Contrast` to 75 instead of the default value of 50
 Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg" -MaxWidth 80 -Contrast 75
 ```
 
+<br>
+
 Example of converting image `$HOME\pictures\image.png` to ASCII art without using the `ImagePath` flag
 
 This flag is not needed if the image path is specified as the first value when calling the function
@@ -71,6 +74,8 @@ This flag is not needed if the image path is specified as the first value when c
 ```powershell
 Convert-ImageToAsciiArt $HOME\pictures\image.png
 ```
+
+<br>
 
 Example of converting image `$env:USERPROFILE\pictures\image.png` to ASCII art with a maximum width of 80
 
@@ -81,6 +86,8 @@ This example uses parameter aliases `Path` and `Width` instead of the full param
 ```powershell
 Convert-ImageToAsciiArt -Path $env:USERPROFILE\pictures\image.png -Width 80 | Out-File -FilePath $PWD\ASCII-art.txt
 ```
+
+<br>
 
 Example of converting image `C:\path\to\image.jpg` to ASCII art using the `Verbose` flag
 
