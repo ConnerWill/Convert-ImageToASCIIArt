@@ -36,7 +36,10 @@ function Convert-ImageToASCIIArt {
             Position=0,
             HelpMessage='Enter path to image'
         )]
-        [ValidateScript({Test-Path $_ -PathType 'Leaf'})]
+        [ValidateScript(
+            {Test-Path $_ -PathType 'Leaf'},
+            ErrorMessage="Please enter the full path to {0}"
+        )]
         [string]
         # Specifies the path to the image file to be converted to ASCII art
         $ImagePath,
