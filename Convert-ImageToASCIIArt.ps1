@@ -42,6 +42,9 @@ function Convert-ImageToASCIIArt {
 
   .LINK
     https://github.com/ConnerWill/Convert-ImageToASCIIArt
+
+  .NOTES
+    Author: Conner.Will
 #>
     [CmdletBinding()]
     Param (
