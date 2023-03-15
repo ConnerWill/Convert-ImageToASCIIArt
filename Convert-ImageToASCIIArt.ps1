@@ -51,10 +51,8 @@ function Convert-ImageToASCIIArt {
             HelpMessage='Enter path to image file'
         )]
         [ValidateScript({
-            $file = $_
             Try {
-                $image = New-Object System.Drawing.Bitmap($file)
-                Remove-Variable -Name image, file -ErrorAction SilentlyContinue
+                New-Object System.Drawing.Bitmap($_)
                 $true
             } Catch {
                 $false
