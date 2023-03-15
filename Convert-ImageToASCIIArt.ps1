@@ -31,7 +31,14 @@ function Convert-ImageToASCIIArt {
 
     Example of converting image 'C:\path\to\image.jpg' to ASCII art with a maximum width of 80
     Then outputting the ASCII art to a text file with Out-File
-    This example uses parameter aliases 'Path' and 'Width' instead of the full parapeters 'ImagePath' and 'MaxWidth'
+    This example uses parameter aliases 'Path' and 'Width' instead of the full parameters 'ImagePath' and 'MaxWidth'
+
+  .EXAMPLE
+    Convert-ImageToAsciiArt -Image C:\path\to\image.jpg -Verbose
+
+    Example of converting image 'C:\path\to\image.jpg' to ASCII art using the Verbose flag
+    This will show the verbose output of what is being done
+    This example uses parameter aliases 'Image' instead of the full parameter 'ImagePath'
 
   .LINK
     https://github.com/ConnerWill/Convert-ImageToASCIIArt
