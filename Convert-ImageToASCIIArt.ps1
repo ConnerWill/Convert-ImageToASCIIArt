@@ -124,7 +124,16 @@ function Convert-ImageToASCIIArt {
             $midCharIndex
         }
     }
+
+    Write-Verbose -Message "Replacing characters from ASCII art, Removing empty lines from beginning and end"
+
     $asciiChars = $asciiChars -replace "[{0}-{1}]" -f $minCharIndex, $maxCharIndex, $contrastChars
+
+    # Remove blank lines from the start of the text
+    $asciiChars = $asciiChars  -replace '(?m)^\s+', ''
+
+    # Remove blank lines from the end of the text
+    $asciiChars = $asciiChars -replace '(?m)\s+$', ''
 
     # Output the ASCII art.
     Write-Verbose -Message "Outputting the ASCII art"
