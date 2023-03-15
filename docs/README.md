@@ -58,7 +58,7 @@ Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
 <br>
 
 Example of converting image `C:\path\to\image.jpg` to ASCII art
-specifying the `MaxWidth` of ASCII art output to 80 instead of default value of 120
+specifying the `MaxWidth` of ASCII art output to 80 instead of default value of your terminal width
 and the `Contrast` to 75 instead of the default value of 50
 
 ```powershell
