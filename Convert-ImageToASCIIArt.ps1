@@ -14,19 +14,31 @@ function Convert-ImageToASCIIArt {
   .EXAMPLE
       Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg" -MaxWidth 80 -Contrast 75
 #>
-    param (
+    Param (
         [Parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            Position=0,
+            HelpMessage='Enter path to image'
         )]
         [ValidateScript({Test-Path $_ -PathType 'Leaf'})]
-        [string]$ImagePath,
+        [string]
+        # Specifies the path to the image file to be converted to ASCII art
+        $ImagePath,
 
-        [Parameter()]
-        [int]$MaxWidth = 120,
+        [Parameter(
+            HelpMessage='Enter maximum width of ASCII art output (Default: 120)'
+        )]
+        [int]
+        # Specifies the maximum width for the ASCII art output
+        $MaxWidth = 120,
 
-        [Parameter()]
+        [Parameter(
+            HelpMessage='Enter contrast value [0-100] (Default: 50)'
+        )]
         [ValidateRange(0,100)]
-        [int]$Contrast = 50
+        [int]
+        # Specifies the contrast value of ASCII art output
+        $Contrast = 50
     )
 
     # Load the image and resize it to a maximum width of $MaxWidth.
