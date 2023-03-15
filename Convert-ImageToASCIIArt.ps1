@@ -53,7 +53,10 @@ function Convert-ImageToASCIIArt {
         $Contrast = 50
     )
 
+    Write-Verbose -Message "Using image: '$ImagePath' with a MaxWidth of '$MaxWidth' and a Contrast value of '$Contrast'"
+
     # Load the image and resize it to a maximum width of $MaxWidth.
+    Write-Verbose -Message "Loading image '$ImagePath' and resize it to a maximum with of '$MaxWidth'"
     $image = [System.Drawing.Image]::FromFile($ImagePath)
     $ratio = $MaxWidth / $image.Width
     $newWidth = [int]($image.Width * $ratio)
@@ -64,6 +67,7 @@ function Convert-ImageToASCIIArt {
     $chars = @(' ', '.', ',', ':', ';', 'o', 'x', '%', '#', '@')
 
     # Convert each pixel in the image to an ASCII character based on its brightness.
+    Write-Verbose -Message "Converting each pixel in the image to an ASCII character based on its brightness"
     $asciiChars = for ($y = 0; $y -lt $resizedImage.Height; $y++) {
         $line = for ($x = 0; $x -lt $resizedImage.Width; $x++) {
             $pixel = $resizedImage.GetPixel($x, $y)
@@ -76,6 +80,7 @@ function Convert-ImageToASCIIArt {
 
     # Apply the contrast parameter by replacing the ASCII characters with different
     # characters based on their brightness.
+    Write-Verbose -Message "Applying the contrast parameter by replacing the ASCII characters with different characters based on their brightness"
     $minCharIndex = 0
     $maxCharIndex = $chars.Count - 1
     $midCharIndex = [int](($minCharIndex + $maxCharIndex) / 2)
@@ -94,5 +99,6 @@ function Convert-ImageToASCIIArt {
     $asciiChars = $asciiChars -replace "[{0}-{1}]" -f $minCharIndex, $maxCharIndex, $contrastChars
 
     # Output the ASCII art.
+    Write-Verbose -Message "Outputting the ASCII art"
     Write-Output $asciiChars
 }
