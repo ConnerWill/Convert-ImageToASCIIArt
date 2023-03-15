@@ -30,7 +30,7 @@ function Convert-ImageToASCIIArt {
     Convert-ImageToAsciiArt -Path C:\path\to\image.jpg -Width 80 | Out-File -FilePath $PWD\ASCII-art.txt
 
     Example of converting image 'C:\path\to\image.jpg' to ASCII art with a maximum width of 80
-    Then outputting the ASCII art to a text file
+    Then outputting the ASCII art to a text file with Out-File
     This example uses parameter aliases 'Path' and 'Width' instead of the full parapeters 'ImagePath' and 'MaxWidth'
 
   .LINK
