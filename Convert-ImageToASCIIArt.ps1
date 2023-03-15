@@ -50,10 +50,17 @@ function Convert-ImageToASCIIArt {
             Position=0,
             HelpMessage='Enter path to image'
         )]
-        [ValidateScript(
-            {Test-Path $_ -PathType 'Leaf'},
-            ErrorMessage="Cannot use {0}, please enter the full path to the image"
-        )]
+        [ValidateScript({
+            $filePath = $_
+            $imageExtensions = @(".jpg", ".jpeg", ".png", ".bmp", ".gif")
+            $extension = [System.IO.Path]::GetExtension($filePath)
+            if ($imageExtensions -contains $extension.ToLower()) {
+                $true
+            }
+            else {
+                throw "The file at $filePath is not an image."
+            }
+        })]
         [Alias("Path","Image")]
         [string]
         # Specifies the path to the image file to be converted to ASCII art
