@@ -58,7 +58,9 @@ function Convert-ImageToASCIIArt {
             } Catch {
                 $false
             }
-        })]
+        },
+        ErrorMessage = "{0} is not an image"
+        )]
         [Alias("Path","Image")]
         [string]
         # Specifies the path to the image file to be converted to ASCII art (Supported extensions: .jpg .jpeg .png .bmp .gif)
