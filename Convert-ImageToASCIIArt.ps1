@@ -45,7 +45,7 @@ function Convert-ImageToASCIIArt {
             HelpMessage='Enter maximum width of ASCII art output (Default: 120)'
         )]
         [int]
-        # Specifies the maximum width for the ASCII art output
+        # Specifies the maximum width for the ASCII art output (Default: 120)
         $MaxWidth = 120,
 
         [Parameter(
@@ -53,7 +53,7 @@ function Convert-ImageToASCIIArt {
         )]
         [ValidateRange(0,100)]
         [int]
-        # Specifies the contrast value of ASCII art output
+        # Specifies the contrast value of ASCII art output [0-100] (Default: 50)
         $Contrast = 50
     )
 
