@@ -54,6 +54,7 @@ function Convert-ImageToASCIIArt {
             $file = $_
             Try {
                 $image = New-Object System.Drawing.Bitmap($file)
+                Remove-Variable -Name image, file -ErrorAction SilentlyContinue
                 $true
             } Catch {
                 $false
