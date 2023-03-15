@@ -1,12 +1,12 @@
 function Convert-ImageToASCIIArt {
 <#
   .SYNOPSIS
-     Function to convert an image to ascii art.
+     Function to convert an image to ASCII art
 
   .DESCRIPTION
-     The function Convert-ImageToAsciiArt takes an image file path and converts the image to ASCII art.
-     The ASCII art is created by replacing each pixel in the image with an ASCII character based on the brightness of the pixel.
-     The ASCII characters used are specified in the $chars variable, and their brightness is determined by the grayscale value of the original pixel.
+     The function Convert-ImageToAsciiArt takes an image file path and converts the image to ASCII art
+     The ASCII art is created by replacing each pixel in the image with an ASCII character based on the brightness of the pixel
+     The ASCII characters used are specified in the $chars variable, and their brightness is determined by the grayscale value of the original pixel
 
   .EXAMPLE
     Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
