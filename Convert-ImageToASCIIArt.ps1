@@ -17,7 +17,7 @@ function Convert-ImageToASCIIArt {
     Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg" -MaxWidth 80 -Contrast 75
 
     Example of converting image 'C:\path\to\image.jpg' to ASCII art,
-    specifying the MaxWidth of ASCII art output to 80 instead of default value of 120
+    specifying the MaxWidth of ASCII art output to 80 instead of default value of your terminal width
     and the Contrast to 75 instead of the default value of 50
 
   .EXAMPLE
@@ -71,7 +71,7 @@ function Convert-ImageToASCIIArt {
         [Alias("Width")]
         [int]
         # Specifies the maximum width for the ASCII art output (Default: 120)
-        $MaxWidth = 120,
+        $MaxWidth = $Host.UI.RawUI.WindowSize.Width,
 
         [Parameter(
             HelpMessage='Enter contrast value [0-100] (Default: 50)'
