@@ -33,16 +33,58 @@ Import PowerShell module
 Import-Module ./Convert-ImageToASCIIArt.ps1
 ```
 
-Run imported command against an image
+Convert an image to ASCII art
 
 ```powershell
 Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
 ```
 
-View help for function
+View help for the function
 
 ```powershell
 Get-Help Convert-ImageToASCIIArt -Full
+```
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
+# Examples
+
+Example of converting image 'C:\path\to\image.jpg' to ASCII art
+
+```powershell
+Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
+```
+
+
+Example of converting image 'C:\path\to\image.jpg' to ASCII art,
+specifying the MaxWidth of ASCII art output to 80 instead of default value of 120
+and the Contrast to 75 instead of the default value of 50
+
+```powershell
+Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg" -MaxWidth 80 -Contrast 75
+```
+
+Example of converting image 'C:\path\to\image.jpg' to ASCII art without using the 'ImagePath' flag
+This flag is not needed if the image path is specified as the first value when calling the function
+
+```powershell
+Convert-ImageToAsciiArt C:\path\to\image.jpg
+```
+
+Example of converting image 'C:\path\to\image.jpg' to ASCII art with a maximum width of 80
+Then outputting the ASCII art to a text file with Out-File to the current directory
+This example uses parameter aliases 'Path' and 'Width' instead of the full parameters 'ImagePath' and 'MaxWidth'
+
+```powershell
+Convert-ImageToAsciiArt -Path C:\path\to\image.jpg -Width 80 | Out-File -FilePath $PWD\ASCII-art.txt
+```
+
+Example of converting image 'C:\path\to\image.jpg' to ASCII art using the Verbose flag
+This will show the verbose output of what is being done
+This example uses parameter aliases 'Image' instead of the full parameter 'ImagePath'
+
+```powershell
+Convert-ImageToAsciiArt -Image C:\path\to\image.jpg -Verbose
 ```
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
