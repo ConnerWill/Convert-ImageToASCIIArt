@@ -11,8 +11,11 @@ function Convert-ImageToASCIIArt {
   .EXAMPLE
       Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg"
 
+      Example of converting image 'C:\path\to\image.jpg' to ASCII art
   .EXAMPLE
       Convert-ImageToAsciiArt -ImagePath "C:\path\to\image.jpg" -MaxWidth 80 -Contrast 75
+
+      Example of converting image 'C:\path\to\image.jpg' to ASCII art, specifying the MaxWidth of ASCII art output to 80 instead of default value of 120 and the Contrast to 75 instead of the default value of 50
 #>
     Param (
         [Parameter(
