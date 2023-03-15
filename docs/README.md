@@ -101,7 +101,7 @@ Convert-ImageToAsciiArt -Image C:\path\to\image.jpg -Verbose
 
 <br>
 
-> View more examples by running `Get-Help Convert-ImageToASCIIArt -Examples`
+> View more examples by running `Get-Help Convert-ImageToASCIIArt -Examples` after importing the module
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
