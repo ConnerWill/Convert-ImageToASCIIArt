@@ -85,10 +85,10 @@ function Convert-ImageToASCIIArt {
     # List of ASCII characters to use for the output.
     $chars = @(' ', '.', ',', ':', ';', 'o', 'x', '%', '#', '@')
 
-    Write-Verbose -Message "Using image: '$ImagePath' with a MaxWidth of '$MaxWidth' and a Contrast value of '$Contrast'"
+    Write-Verbose -Message "Using image: '${ImagePath}' with a MaxWidth of '${MaxWidth}' and a Contrast value of '${Contrast}'"
 
     # Load the image and resize it to a maximum width of $MaxWidth.
-    Write-Verbose -Message "Loading image '$ImagePath' and resizing it to a maximum width of '$MaxWidth'"
+    Write-Verbose -Message "Loading image '${ImagePath}' and resizing it to a maximum width of '${MaxWidth}'"
     $image = [System.Drawing.Image]::FromFile($ImagePath)
     $ratio = $MaxWidth / $image.Width
     $newWidth = [int]($image.Width * $ratio)
