@@ -79,4 +79,4 @@ This example uses parameter aliases `Image` instead of the full parameter `Image
 # NOTES
 
 Author
-: Conner.Will
+: [Conner.Will](https://github.com/ConnerWill)
