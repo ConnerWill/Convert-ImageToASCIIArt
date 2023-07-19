@@ -1,0 +1,28 @@
+name: PowerShell Script Analysis
+on: [push, pull_request]
+
+jobs:
+  analyze:
+    name: Analyze PowerShell Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PowerShell
+        uses: microsoft/powershell@v1
+
+      - name: Install PSScriptAnalyzer module
+        run: Install-Module -Name PSScriptAnalyzer -Force -Confirm:$false
+
+      - name: Run PSScriptAnalyzer
+        run: |
+          $scripts = Get-ChildItem -Path . -Filter *.ps1 -Recurse
+          foreach ($script in $scripts) {
+            $analysisResults = Invoke-ScriptAnalyzer -Path $script.FullName
+            if ($analysisResults) {
+              Write-Output $analysisResults
+              exit 1
+            }
+          }
