@@ -27,10 +27,22 @@ PowerShell function to convert an image to ASCII art
 
 # Usage
 
+Clone repository
+
+```powershell
+git clone https://github.com/ConnerWill/Convert-ImageToASCIIArt.git
+```
+
 Import PowerShell module
 
 ```powershell
-Import-Module ./Convert-ImageToASCIIArt.psm1
+Import-Module ./Convert-ImageToASCIIArt
+```
+
+> or
+
+```powershell
+Import-Module ./Convert-ImageToASCIIArt/Convert-ImageToASCIIArt.psm1
 ```
 
 Convert an image to ASCII art
