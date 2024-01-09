@@ -107,42 +107,8 @@ Convert-ImageToAsciiArt -Image C:\path\to\image.jpg -Verbose
 
 # Other
 
-<!-- CONTRIBUTING -->
-## Contributing
+## ASCII Art Showcase
 
-<details>
-  <summary>Click to expand contributing section</summary>
-
-<br>
-
-> Any contributions you make are **greatly appreciated**.
-
-> > If you want to contribute, please fork this repo and create a pull request.
-
-1. Fork the Project
-2. Create your Feature Branch
-
-```console
-git checkout -b AmazingNewFeature
-```
-
-3. Commit your Changes
-
-```console
-git commit -m 'Description of the amazing feature you added'
-```
-
-4. Push to the Branch
-
-```console
-git push origin AmazingNewFeature
-```
-
-5. Then open a pull request `:)`
-
-> > If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
-
-</details>
 
 <details>
   <summary>Click to expand example ASCII art generated from this script</summary>
@@ -402,6 +368,43 @@ git push origin AmazingNewFeature
 ```
 </details>
 
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+<details>
+  <summary>Click to expand contributing section</summary>
+
+<br>
+
+> Any contributions you make are **greatly appreciated**.
+
+> > If you want to contribute, please fork this repo and create a pull request.
+
+1. Fork the Project
+2. Create your Feature Branch
+
+```console
+git checkout -b AmazingNewFeature
+```
+
+3. Commit your Changes
+
+```console
+git commit -m 'Description of the amazing feature you added'
+```
+
+4. Push to the Branch
+
+```console
+git push origin AmazingNewFeature
+```
+
+5. Then open a pull request `:)`
+
+> > If you experience any bugs/issues or have and suggestions, you can simply open an issue `:)`
+
+</details>
 
 ## Donate
 
