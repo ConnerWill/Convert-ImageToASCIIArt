@@ -29,7 +29,7 @@ PowerShell function to convert an image to ASCII art
 
 Clone repository
 
-```bash
+```console
 git clone https://github.com/ConnerWill/Convert-ImageToASCIIArt.git
 ```
 
