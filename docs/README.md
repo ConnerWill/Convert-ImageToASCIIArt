@@ -59,6 +59,21 @@ Get-Help Convert-ImageToASCIIArt -Full
 
 <img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
 
+# Parameters
+
+| Parameter    | Aliases              | Type       | Default                                   | Description                                                                                           |
+| ------------ | -------------------- | ---------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `-ImagePath` | `Path`, `Image`      | `string`   | *(required)*                              | Path to the image file to convert. Accepts absolute and relative (`.\image.png`) paths.               |
+| `-MaxWidth`  | `Width`              | `int`      | Terminal width (or `120` if unavailable)  | Maximum width (in characters) of the ASCII art output.                                                |
+| `-Contrast`  |                      | `int`      | `50`                                      | Contrast of the output, `0`-`100`. `50` is neutral; higher increases contrast, lower flattens it.     |
+| `-Chars`     | `Characters`, `Ramp` | `char[]`   | `' .,:;ox%#@'`                            | Characters used to render the art, ordered from lightest (space) to darkest.                          |
+
+> Supported image formats: `.jpg` `.jpeg` `.png` `.bmp` `.gif`
+
+> **Note:** `System.Drawing` is only supported on Windows under PowerShell 7+, so image conversion requires Windows (or Windows PowerShell 5.1).
+
+<img width="100%" src="https://raw.githubusercontent.com/ConnerWill/Project-Template/main/assets/lines/rainbow.png">
+
 # Examples
 
 Example of converting image `C:\path\to\image.jpg` to ASCII art
@@ -109,6 +124,26 @@ This example uses parameter aliases `Image` instead of the full parameter `Image
 
 ```powershell
 Convert-ImageToAsciiArt -Image C:\path\to\image.jpg -Verbose
+```
+
+<br>
+
+Example of converting image `.\image.png` to ASCII art using a custom character set
+
+The `Chars` parameter accepts the characters used to render the art, ordered from lightest (a space) to darkest
+
+```powershell
+Convert-ImageToAsciiArt -ImagePath .\image.png -Chars ' .:-=+*#%@'
+```
+
+<br>
+
+Example of converting image `.\image.png` to ASCII art using a reversed character ramp
+
+This uses the `Ramp` alias of the `Chars` parameter. Ordering the characters darkest to lightest produces an inverted (negative-looking) image
+
+```powershell
+Convert-ImageToAsciiArt -Path .\image.png -Ramp '@%#*+=-:. '
 ```
 
 <br>

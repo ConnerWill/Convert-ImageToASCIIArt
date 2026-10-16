@@ -1,3 +1,20 @@
+# Determine whether image processing is actually supported on this platform.
+# System.Drawing.Common is Windows-only on .NET 6+ (PowerShell 7): the assembly may
+# load on Linux/macOS but then throw PlatformNotSupportedException on first real use.
+# We probe by creating a tiny Bitmap. If anything fails we silently skip defining the
+# function, so importing this module in $PROFILE on Linux does not print any errors.
+$script:ImageProcessingSupported = $false
+try {
+    Add-Type -AssemblyName System.Drawing -ErrorAction Stop
+    $probe = New-Object System.Drawing.Bitmap 1, 1
+    $probe.Dispose()
+    $script:ImageProcessingSupported = $true
+} catch {
+    Write-Verbose "Convert-ImageToASCIIArt: System.Drawing is not usable on this platform; function not defined. ($($_.Exception.Message))"
+}
+
+if ($script:ImageProcessingSupported) {
+
 function Convert-ImageToASCIIArt {
 <#
   .SYNOPSIS
@@ -40,6 +57,18 @@ function Convert-ImageToASCIIArt {
     This will show the verbose output of what is being done
     This example uses parameter aliases 'Image' instead of the full parameter 'ImagePath'
 
+  .EXAMPLE
+    Convert-ImageToAsciiArt -ImagePath .\image.png -Chars ' .:-=+*#%@'
+
+    Example of converting image '.\image.png' to ASCII art using a custom character set
+    The characters are ordered from lightest (space) to darkest ('@')
+
+  .EXAMPLE
+    Convert-ImageToAsciiArt -Path .\image.png -Ramp '@%#*+=-:. '
+
+    Example of converting image '.\image.png' to ASCII art using the 'Ramp' alias of the 'Chars' parameter
+    This ramp is reversed (darkest to lightest), producing an inverted/negative-looking image
+
   .LINK
     https://github.com/ConnerWill/Convert-ImageToASCIIArt
 
@@ -54,9 +83,13 @@ function Convert-ImageToASCIIArt {
             HelpMessage='Enter path to image file'
         )]
         [ValidateScript({
-            # Validate the input is an image by attempting to load the file as an image
+            # Validate the input is an image by attempting to load the file as an image.
+            # Resolve the path first so relative paths (e.g. .\image.png) work, since
+            # .NET methods do not honor PowerShell's current directory ($PWD).
             Try {
-                New-Object System.Drawing.Bitmap($_)
+                $resolvedPath = (Resolve-Path -LiteralPath $_ -ErrorAction Stop).ProviderPath
+                $bitmap = New-Object System.Drawing.Bitmap($resolvedPath)
+                $bitmap.Dispose()
                 $true
             } Catch {
                 $false
@@ -73,8 +106,8 @@ function Convert-ImageToASCIIArt {
         )]
         [Alias("Width")]
         [int]
-        # Specifies the maximum width for the ASCII art output (Default: 120)
-        $MaxWidth = $Host.UI.RawUI.WindowSize.Width,
+        # Specifies the maximum width for the ASCII art output (Default: terminal width, or 120 if unavailable)
+        $MaxWidth = $(if ($Host.UI.RawUI.WindowSize.Width -gt 0) { $Host.UI.RawUI.WindowSize.Width } else { 120 }),
 
         [Parameter(
             HelpMessage='Enter contrast value [0-100] (Default: 50)'
@@ -82,66 +115,76 @@ function Convert-ImageToASCIIArt {
         [ValidateRange(0,100)]
         [int]
         # Specifies the contrast value of ASCII art output [0-100] (Default: 50)
-        $Contrast = 50
+        $Contrast = 50,
+
+        [Parameter(
+            HelpMessage='Enter the characters to use for the ASCII art, ordered from lightest (space) to darkest'
+        )]
+        [ValidateNotNullOrEmpty()]
+        [Alias("Characters","Ramp")]
+        [char[]]
+        # Specifies the characters used to render the ASCII art, ordered from lightest to darkest (Default: ' .,:;ox%#@')
+        $Chars = @(' ', '.', ',', ':', ';', 'o', 'x', '%', '#', '@')
     )
 
-    # List of ASCII characters to use for the output.
-    $chars = @(' ', '.', ',', ':', ';', 'o', 'x', '%', '#', '@')
+    # List of ASCII characters to use for the output (passed via -Chars, lightest to darkest).
+    $chars = $Chars
 
     Write-Verbose -Message "Using image: '${ImagePath}' with a MaxWidth of '${MaxWidth}' and a Contrast value of '${Contrast}'"
 
-    # Load the image and resize it to a maximum width of $MaxWidth.
-    Write-Verbose -Message "Loading image '${ImagePath}' and resizing it to a maximum width of '${MaxWidth}'"
-    $image = [System.Drawing.Image]::FromFile($ImagePath)
-    $ratio = $MaxWidth / $image.Width
-    $newWidth = [int]($image.Width * $ratio)
-    $newHeight = [int]($image.Height * $ratio)
-    $resizedImage = $image.GetThumbnailImage($newWidth, $newHeight, $null, [System.IntPtr]::Zero)
+    # Resolve the path to an absolute path so relative paths (e.g. .\image.png) work,
+    # since .NET methods do not honor PowerShell's current directory ($PWD).
+    $ImagePath = (Resolve-Path -LiteralPath $ImagePath).ProviderPath
 
-    # Convert each pixel in the image to an ASCII character based on its brightness.
-    Write-Verbose -Message "Converting each pixel in the image to an ASCII character based on its brightness"
-    $asciiChars = for ($y = 0; $y -lt $resizedImage.Height; $y++) {
-        $line = for ($x = 0; $x -lt $resizedImage.Width; $x++) {
-            $pixel = $resizedImage.GetPixel($x, $y)
-            $brightness = ([int]$pixel.R * 0.299 + [int]$pixel.G * 0.587 + [int]$pixel.B * 0.114) / 255
-            $charIndex = [int]($brightness * ($chars.Count - 1))
-            $chars[$charIndex]
+    $image = $null
+    $resizedImage = $null
+    Try {
+        # Load the image and resize it to a maximum width of $MaxWidth.
+        Write-Verbose -Message "Loading image '${ImagePath}' and resizing it to a maximum width of '${MaxWidth}'"
+        $image = [System.Drawing.Image]::FromFile($ImagePath)
+        $ratio = $MaxWidth / $image.Width
+        $newWidth = [int]($image.Width * $ratio)
+        # Characters are roughly twice as tall as they are wide, so halve the height
+        # to keep the output from looking vertically stretched.
+        $newHeight = [int]($image.Height * $ratio * 0.5)
+        if ($newHeight -lt 1) { $newHeight = 1 }
+        $resizedImage = $image.GetThumbnailImage($newWidth, $newHeight, $null, [System.IntPtr]::Zero)
+
+        # Precompute a contrast factor. Contrast 50 is neutral (factor 1.0); higher values
+        # push brightness away from the midpoint (0.5), lower values pull it toward the midpoint.
+        $contrastFactor = $Contrast / 50
+
+        # Convert each pixel in the image to an ASCII character based on its (contrast-adjusted) brightness.
+        Write-Verbose -Message "Converting each pixel in the image to an ASCII character based on its brightness"
+        $maxCharIndex = $chars.Count - 1
+        $asciiChars = for ($y = 0; $y -lt $resizedImage.Height; $y++) {
+            $line = for ($x = 0; $x -lt $resizedImage.Width; $x++) {
+                $pixel = $resizedImage.GetPixel($x, $y)
+                $brightness = ([int]$pixel.R * 0.299 + [int]$pixel.G * 0.587 + [int]$pixel.B * 0.114) / 255
+
+                # Apply contrast by stretching brightness around the 0.5 midpoint.
+                $brightness = (($brightness - 0.5) * $contrastFactor) + 0.5
+                if ($brightness -lt 0) { $brightness = 0 }
+                elseif ($brightness -gt 1) { $brightness = 1 }
+
+                $charIndex = [int]($brightness * $maxCharIndex)
+                $chars[$charIndex]
+            }
+            [string]::Join('', $line)
         }
-        [string]::Join('', $line)
+
+        # Output the ASCII art.
+        Write-Verbose -Message "Outputting the ASCII art"
+        Write-Output $asciiChars
     }
-
-    # Apply the contrast parameter by replacing the ASCII characters with different characters based on their brightness.
-    Write-Verbose -Message "Applying the contrast parameter by replacing the ASCII characters with different characters based on their brightness"
-    $minCharIndex = 0
-    $maxCharIndex = $chars.Count - 1
-    $midCharIndex = [int](($minCharIndex + $maxCharIndex) / 2)
-    $contrastChars = for ($i = 0; $i -lt $chars.Count; $i++) {
-        $brightness = $i / ($chars.Count - 1)
-        if ($brightness -lt $Contrast / 200) {
-            $minCharIndex
-        }
-        elseif ($brightness -gt ($Contrast + 100) / 200) {
-            $maxCharIndex
-        }
-        else {
-            $midCharIndex
-        }
+    Finally {
+        # Dispose image objects to release GDI+ handles and the file lock held by FromFile.
+        if ($resizedImage) { $resizedImage.Dispose() }
+        if ($image) { $image.Dispose() }
     }
-
-    Write-Verbose -Message "Replacing characters from ASCII art" #, Removing empty lines from beginning and end"
-
-    $asciiChars = $asciiChars -replace "[{0}-{1}]" -f $minCharIndex, $maxCharIndex, $contrastChars
-
-    # Remove blank lines from the start of the text
-    # $asciiChars = $asciiChars -replace "(?m)^\s*`r?`n", ""
-
-    # Remove blank lines from the end of the text
-    # $asciiChars = $asciiChars -replace "`r?`n\s*$", ""
-
-    # Output the ASCII art.
-    Write-Verbose -Message "Outputting the ASCII art"
-    Write-Output $asciiChars
 }
+
+} # end if ($script:ImageProcessingSupported)
 
 # TODO:
 #
